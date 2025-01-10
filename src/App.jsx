@@ -6,19 +6,21 @@ import Card from "./card";
 
 function App() {
   // State to store Pokémon data
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
   const [pokemonData, setPokemonData] = useState([
-    { id: 1, name: "Pikachu", selected: false },
-    { id: 2, name: "Charizard", selected: false },
-    { id: 3, name: "Mewtwo", selected: false },
-    { id: 4, name: "Bulbasaur", selected: false },
-    { id: 5, name: "Charmander", selected: false },
-    { id: 6, name: "Squirtle", selected: false },
-    { id: 7, name: "Pidgeot", selected: false },
-    { id: 8, name: "Jigglypuff", selected: false },
-    { id: 9, name: "Snorlax", selected: false },
-    { id: 10, name: "Gengar", selected: false },
-    { id: 11, name: "Lapras", selected: false },
-    { id: 12, name: "Eevee", selected: false },
+    { id: 1, name: "Pikachu", wasClicked: false },
+    { id: 2, name: "Charizard", wasClicked: false },
+    { id: 3, name: "Mewtwo", wasClicked: false },
+    { id: 4, name: "Bulbasaur", wasClicked: false },
+    { id: 5, name: "Charmander", wasClicked: false },
+    { id: 6, name: "Squirtle", wasClicked: false },
+    { id: 7, name: "Pidgeot", wasClicked: false },
+    { id: 8, name: "Jigglypuff", wasClicked: false },
+    { id: 9, name: "Snorlax", wasClicked: false },
+    { id: 10, name: "Gengar", wasClicked: false },
+    { id: 11, name: "Lapras", wasClicked: false },
+    { id: 12, name: "Eevee", wasClicked: false },
   ]);
 
   const fetchPokemonData = async (pokemon) => {
@@ -59,8 +61,15 @@ function App() {
 
   return (
     <div id="app">
-      <Header></Header>
-      <Gameboard pokemonData={pokemonData}></Gameboard>
+      <Header score={score} bestScore={bestScore}></Header>
+      <Gameboard
+        pokemonData={pokemonData}
+        setPokemonData={setPokemonData}
+        score={score}
+        bestScore={bestScore}
+        setBestScore={setBestScore}
+        setScore={setScore}
+      ></Gameboard>
     </div>
   );
 }
