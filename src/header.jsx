@@ -1,11 +1,11 @@
-function Header() {
+function Header({ score, bestScore }) {
   return (
     <header id="header">
       <div>
         <h1 className="title">Pokemon Memory Game!</h1>{" "}
         <div className="scoreboard">
           <p className="current-score">
-            Current Score: <span>{currentScore}</span>
+            Current Score: <span>{score}</span>
           </p>
           <p className="best-score">
             Best Score: <span>{bestScore}</span>
