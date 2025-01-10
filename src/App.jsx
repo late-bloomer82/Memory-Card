@@ -2,26 +2,36 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./header";
 import Gameboard from "./gameboard";
-import Card from "./card";
+
+const pokemons = [
+  { id: 1, name: "Pikachu", wasClicked: false },
+  { id: 2, name: "Charizard", wasClicked: false },
+  { id: 3, name: "Mewtwo", wasClicked: false },
+  { id: 4, name: "Bulbasaur", wasClicked: false },
+  { id: 5, name: "Charmander", wasClicked: false },
+  { id: 6, name: "Squirtle", wasClicked: false },
+  { id: 7, name: "Pidgeot", wasClicked: false },
+  { id: 8, name: "Jigglypuff", wasClicked: false },
+  { id: 9, name: "Snorlax", wasClicked: false },
+  { id: 10, name: "Gengar", wasClicked: false },
+  { id: 11, name: "Lapras", wasClicked: false },
+  { id: 12, name: "Eevee", wasClicked: false },
+];
 
 function App() {
   // State to store Pokémon data
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
-  const [pokemonData, setPokemonData] = useState([
-    { id: 1, name: "Pikachu", wasClicked: false },
-    { id: 2, name: "Charizard", wasClicked: false },
-    { id: 3, name: "Mewtwo", wasClicked: false },
-    { id: 4, name: "Bulbasaur", wasClicked: false },
-    { id: 5, name: "Charmander", wasClicked: false },
-    { id: 6, name: "Squirtle", wasClicked: false },
-    { id: 7, name: "Pidgeot", wasClicked: false },
-    { id: 8, name: "Jigglypuff", wasClicked: false },
-    { id: 9, name: "Snorlax", wasClicked: false },
-    { id: 10, name: "Gengar", wasClicked: false },
-    { id: 11, name: "Lapras", wasClicked: false },
-    { id: 12, name: "Eevee", wasClicked: false },
-  ]);
+  const [pokemonData, setPokemonData] = useState(pokemons);
+
+  const resetGameboard = () => {
+    setPokemonData((previousPokemonData) => {
+      const shuffledData = [...previousPokemonData]
+        .map((pokemon) => ({ ...pokemon, wasClicked: false })) // Reset wasClicked
+        .sort(() => Math.random() - 0.5); // Shuffle order
+      return shuffledData;
+    });
+  };
 
   const fetchPokemonData = async (pokemon) => {
     try {
@@ -49,7 +59,7 @@ function App() {
       const updatedData = await Promise.all(
         pokemonData.map(async (pokemon) => {
           const fetchedData = await fetchPokemonData(pokemon.name); // Fetch images
-          return { ...pokemon, ...fetchedData }; // Merge fetched data into the Pokémon object
+          return fetchedData ? { ...pokemon, ...fetchedData } : pokemon; // Merge fetched data into the Pokémon object
         })
       );
 
@@ -69,6 +79,7 @@ function App() {
         bestScore={bestScore}
         setBestScore={setBestScore}
         setScore={setScore}
+        resetGameboard={resetGameboard}
       ></Gameboard>
     </div>
   );
