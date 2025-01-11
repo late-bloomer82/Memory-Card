@@ -7,6 +7,8 @@ function Gameboard({
   bestScore,
   setScore,
   setBestScore,
+  shuffleCards,
+  resetClickedProperty,
 }) {
   const updateClickedProperty = (clickedPokemon) => {
     setPokemonData((prevData) =>
@@ -18,7 +20,16 @@ function Gameboard({
       )
     );
   };
+
+  function capitalizeFirstLetter(name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  }
   const handleClick = (pokemon) => {
+    //Shuffle card order on each turn
+    setPokemonData((previousPokemonData) => {
+      const updatedData = shuffleCards(previousPokemonData);
+      return updatedData;
+    });
     if (!pokemon.wasClicked) {
       setScore((previousScore) => {
         const newScore = previousScore + 1;
@@ -26,14 +37,15 @@ function Gameboard({
           newScore > previousBestScore ? newScore : previousBestScore
         );
         updateClickedProperty(pokemon);
-
         return newScore;
       });
     } else {
+      setPokemonData((previousData) => resetClickedProperty(previousData));
       setScore((previousScore) => {
         setBestScore((previousBestScore) =>
           previousScore > previousBestScore ? previousScore : previousBestScore
         );
+
         return 0; // Reset the score
       });
     }
@@ -44,10 +56,11 @@ function Gameboard({
       {pokemonData.map((pokemon) => (
         <Card
           key={pokemon.id}
-          name={pokemon.name}
-          image={pokemon.images.sprite}
+          name={capitalizeFirstLetter(pokemon.name)}
+          image={pokemon.images.officialArtwork}
           onClick={() => {
             handleClick(pokemon);
+            console.log(pokemonData);
           }}
         ></Card>
       ))}
