@@ -1,7 +1,7 @@
 function Header({ score, bestScore }) {
   return (
     <header id="header">
-      <div>
+      <div className="header-top">
         <h1 className="title">Pokemon Memory Game!</h1>{" "}
         <div className="scoreboard">
           <p className="current-score">
