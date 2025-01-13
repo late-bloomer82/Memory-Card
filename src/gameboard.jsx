@@ -12,13 +12,17 @@ function Gameboard({
 }) {
   const updateClickedProperty = (clickedPokemon) => {
     setPokemonData((prevData) =>
-      prevData.map(
-        (pokemon) =>
-          pokemon.id === clickedPokemon.id // Replace targetId with the actual ID of the pokemon you're targeting
-            ? { ...pokemon, wasClicked: true } // Update the wasClicked property
-            : pokemon // Leave the rest of the pokemons unchanged
+      prevData.map((pokemon) =>
+        pokemon.id === clickedPokemon.id
+          ? { ...pokemon, wasClicked: true } // Update the wasClicked property
+          : pokemon
       )
     );
+  };
+
+  const isGameOver = () => {
+    if (score === 12) return true;
+    return false;
   };
 
   function capitalizeFirstLetter(name) {
@@ -53,6 +57,17 @@ function Gameboard({
 
   return (
     <section id="gameboard">
+      {isGameOver() && (
+        <div className="game-over-modal-wrapper">
+          <div className="game-over-modal">
+            <h2 className="modal-header">Congratulations!</h2>
+            <p className="modal-message">You've memorized every card!</p>
+            <button className="modal-button" onClick={() => setScore(0)}>
+              Play Again
+            </button>
+          </div>
+        </div>
+      )}
       {pokemonData.map((pokemon) => (
         <Card
           key={pokemon.id}
