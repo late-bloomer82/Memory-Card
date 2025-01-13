@@ -19,6 +19,11 @@ function Gameboard({
       )
     );
   };
+  const newGame = () => {
+    setScore(0);
+    setBestScore(0);
+    setPokemonData((previousData) => resetClickedProperty(previousData));
+  };
 
   const isGameOver = () => {
     if (score === 12) return true;
@@ -62,7 +67,7 @@ function Gameboard({
           <div className="game-over-modal">
             <h2 className="modal-header">Congratulations!</h2>
             <p className="modal-message">You've memorized every card!</p>
-            <button className="modal-button" onClick={() => setScore(0)}>
+            <button className="modal-button" onClick={newGame}>
               Play Again
             </button>
           </div>
@@ -75,7 +80,6 @@ function Gameboard({
           image={pokemon.images.officialArtwork}
           onClick={() => {
             handleClick(pokemon);
-            console.log(pokemonData);
           }}
         ></Card>
       ))}
